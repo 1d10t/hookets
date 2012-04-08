@@ -58,7 +58,13 @@ class PluginHookets_ActionHookets extends ActionPlugin {
 
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('hookets_title'));
 		$this->Viewer_AppendStyle(Plugin::GetTemplateWebPath('hookets').'css/style.css');
-		$this->aBlocks['right'][] = Plugin::GetTemplatePath('hookets').'block.info.tpl';
+		//$this->aBlocks['right'][] = Plugin::GetTemplatePath('hookets').'block.info.tpl';
+		$this->aBlocks['right'][] = array(
+			'block' => 'block.info.tpl',
+			'params' => array(
+				'plugin' => Engine::GetClassInfo(__CLASS__,Engine::CI_PLUGIN,true),
+			),
+		);
 
 		$this->SetDefaultEvent('list');
 	}
@@ -182,7 +188,7 @@ class PluginHookets_ActionHookets extends ActionPlugin {
 					{
 						$this->MessageNotice($this->Lang_Get('hookets_add_success'), "", true);
 					}
-					Router::Location('/'.Router::GetAction('hookets'));
+					Router::Location(Router::GetPath('hookets'));
 				}
 				else
 				{
@@ -206,7 +212,7 @@ class PluginHookets_ActionHookets extends ActionPlugin {
 						else
 						{
 							$this->MessageNotice($this->Lang_Get('hookets_edit_success'), "", true);
-							Router::Location('/'.Router::GetAction('hookets'));
+							Router::Location(Router::GetPath('hookets'));
 						}
 					}
 				}
@@ -292,7 +298,7 @@ class PluginHookets_ActionHookets extends ActionPlugin {
 		{
 			$this->Message_AddError($this->Lang_Get('hookets_delete_fail'), '', true);
 		}
-		Router::Location('/'.Router::GetAction('hookets'));
+		Router::Location(Router::GetPath('hookets'));
 	}
 
 	protected function EventEnable() {
@@ -311,7 +317,7 @@ class PluginHookets_ActionHookets extends ActionPlugin {
 		{
 			$this->Message_AddError($this->Lang_Get('hookets_enable_fail'),$this->Lang_Get('error'),true);
 		}
-		Router::Location('/'.Router::GetAction('hookets'));
+		Router::Location(Router::GetPath('hookets'));
 	}
 
 	protected function EventDisable() {
@@ -330,7 +336,7 @@ class PluginHookets_ActionHookets extends ActionPlugin {
 		{
 			$this->Message_AddError($this->Lang_Get('hookets_disable_fail'),$this->Lang_Get('error'),true);
 		}
-		Router::Location('/'.Router::GetAction('hookets'));
+		Router::Location(Router::GetPath('hookets'));
 	}
 
 	public function EventShutdown() {
@@ -342,6 +348,7 @@ class PluginHookets_ActionHookets extends ActionPlugin {
 		$this->Viewer_Assign('sTemplatePath', Plugin::GetTemplatePath('hookets'));
 		$this->Viewer_Assign('bEnabled', Config::Get('plugin.hookets.enabled'));
 		foreach ($this->aBlocks as $sGroup=>$aGroupBlocks) {
+			//throw new CException(CVarDumper::dumpAsString($aGroupBlocks));
 			$this->Viewer_AddBlocks($sGroup, $aGroupBlocks);
 		}
 	}

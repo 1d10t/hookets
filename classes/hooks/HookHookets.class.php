@@ -131,7 +131,7 @@ class PluginHookets_HookHookets extends Hook {
 					$code='$oEngine=Engine::GetInstance();  $oEngine->Viewer_Assign("hookets_source",\''.str_replace("'", "\'", $code).'\'); return $oEngine->Viewer_Fetch(Plugin::GetTemplatePath(\'hookets\')."/actions/ActionHookets/helper.tpl");';
 				}
 
-				$code="<? function Hooket_".$hid."(\$aVars) { $code } ?>";
+				$code="<?php function Hooket_".$hid."(\$aVars) { $code } ?>";
 				$GLOBALS["easy_hooket_func_".$hid]=$code;
 				include "hvar://easy_hooket_func_".$hid;
 				$this->Hook_AddExecFunction($hooket->getHookName(),"Hooket_".$hid,$hooket->getPriority());
