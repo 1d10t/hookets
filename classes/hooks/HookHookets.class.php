@@ -120,15 +120,14 @@ class PluginHookets_HookHookets extends Hook {
 				{
 					$code="return '".str_replace("'", "\'", $code)."';";
 				}
-				else
-				if (($hooket->getType()=='code'))
+				elseif (($hooket->getType()=='code'))
 				{
 					$code='$oEngine=Engine::GetInstance(); '.$code;
 				}
-				if ($hooket->getType()=='template')
+				elseif ($hooket->getType()=='template')
 				{
 					$GLOBALS["easy_hooket_template_".$hid]=$code;
-					$code='$oEngine=Engine::GetInstance();  $oEngine->Viewer_Assign("hookets_source",\''.str_replace("'", "\'", $code).'\'); return $oEngine->Viewer_Fetch(Plugin::GetTemplatePath(\'hookets\')."/actions/ActionHookets/helper.tpl");';
+					$code='$oEngine=Engine::GetInstance(); foreach($aVars as $sVarName=>$mVarValue){$oEngine->Viewer_Assign($sVarName,$mVarValue);} $oEngine->Viewer_Assign("hookets_source",\''.str_replace("'", "\'", $code).'\'); return $oEngine->Viewer_Fetch(Plugin::GetTemplatePath(\'hookets\')."/actions/ActionHookets/helper.tpl");';
 				}
 
 				$code="<?php function Hooket_".$hid."(\$aVars) { $code } ?>";
